@@ -34,7 +34,7 @@ Then(/^I should see my profile page$/) do
 end
 
 Then(/^I should see a log out link$/) do
-    expect(page).to have_link(text: /Log out/i, href: logout_path)
+    expect(page).to have_link(text: /Log out/i, href: destroy_user_session_path)
 end
 
 And(/^I should see a success message$/) do
