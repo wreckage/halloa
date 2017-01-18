@@ -19,7 +19,7 @@ Given(/^I visit the login page$/) do
 end
 
 Given(/I have an account$/) do
-  @user = User.create(name: "example", email: "example@example.com",
+  @user = User.create(username: "example", email: "example@example.com",
                       password: "foobar", password_confirmation: "foobar")
 end
 
@@ -30,7 +30,7 @@ When(/^I submit valid login information$/) do
 end
 
 Then(/^I should see my profile page$/) do
-    expect(page).to have_selector('h1', text: @user.name)
+    expect(page).to have_selector('h1', text: @user.username)
 end
 
 Then(/^I should see a log out link$/) do

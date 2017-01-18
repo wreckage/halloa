@@ -10,14 +10,22 @@ RSpec.describe User, type: :model do
     it { is_expected.to be_valid }
   end
 
-  describe "when name is not present" do
-    before { @user.name = " " }
+  describe "when username is not present" do
+    before { @user.username = " " }
     it { is_expected.not_to be_valid }
   end
 
-  describe "when name is too long" do
-    before { @user.name = 'a' * 51 }
+  describe "when username is too long" do
+    before { @user.username = 'a' * 51 }
     it { is_expected.not_to be_valid }
+  end
+
+  describe "if username is already taken" do
+    it "should not be valid" do
+      FactoryGirl.create(:user, username: "hank")
+      user2 = FactoryGirl.build(:user, username: "hAnk")
+      expect(user2).not_to be_valid
+    end
   end
 
   describe "when destroyed" do

@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
   def show
-    @user = User.find(params[:id])
-    render html: "Hello from the future home of user profile!"
+    if user_signed_in?
+      @user = current_user
+      render component: "Profile", 
+        props: { user: @user.as_json(only: [:id, :username]), 
+                 microposts_total: @user.microposts.count,
+                 gravatar_id: @user.gravatar_id.as_json }
+    else
+      redirect_to root_url
+    end
   end
 end
