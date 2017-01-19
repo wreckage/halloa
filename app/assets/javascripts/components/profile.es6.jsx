@@ -25,8 +25,8 @@ class Profile extends React.Component {
       <li key={micropost.id} id={"micropost-" + micropost.id}>
         {this.gravatar_img()}
         <span className="user">
-          <a href={"/users/" + this.props.user.id}>
-            {this.props.user.username}
+          <a href={"/users/" + micropost.user_id}>
+            {micropost.user.username}
           </a>
         </span>
         <span className="content">{micropost.content}</span>
@@ -36,11 +36,15 @@ class Profile extends React.Component {
   }
 
   fetchMicroposts(e, direction) {
-    e.preventDefault();
+    console.log("hey!!!");
+    console.log(direction);
+    e && e.preventDefault();
     let page = this.state.next_page;
-    if (direction == "prev") {
+    if (!direction)
+      page = 1;
+    else if (direction == "prev")
       page = this.state.page - 1;
-    } 
+
     const url = (
       '/users/' + this.props.user.id + 
       '/microposts.json?page=' + page)
@@ -92,6 +96,9 @@ class Profile extends React.Component {
             <span>
                 Hello from inside Profile component
             </span>
+          </section>
+          <section className="micropost_form">
+            <MicropostForm refreshFeed={this.fetchMicroposts} />
           </section>
         </aside>
           <div className="col-md-8">

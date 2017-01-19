@@ -163,6 +163,17 @@ aside {
   padding: 0;
 }
 
+
+/* forms */
+
+textarea, #post_button {
+  border: 1px solid #bbb;
+  width: 100%;
+  margin-bottom: 15px;
+  @include box_sizing;
+}
+
+
 /* Users index */
 
 .users {
