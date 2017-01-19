@@ -3,7 +3,7 @@ User.create!(username:  "reu",
              password:              "foobar",
              password_confirmation: "foobar")
 
-22.times do |n|
+40.times do |n|
   username  = Faker::Name.name
   email = "example-#{n+1}@example.com"
   password = "password"

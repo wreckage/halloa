@@ -5,7 +5,7 @@ class MicropostsController < ApplicationController
     @user = User.find(params[:id])
     if @user == current_user
       to_json = { next_page: @user.microposts.paginate(page: params[:page]).next_page,
-                  microposts: @user.microposts.paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username] } } )
+                  microposts: @user.microposts.paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username, :gravatar_id] } } )
       }
       respond_to do |format|
         format.json do

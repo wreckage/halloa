@@ -55,9 +55,17 @@ class UserIndex extends React.Component {
     });
   }
 
+  gravatar_img(username, grav_id) {
+    return (
+      <img className="gravatar" alt={username}
+      src={"https://secure.gravatar.com/avatar/" + grav_id + "?s=50"} />
+    )
+  }
+
   showUsers() {
     return this.state.users.map((user) =>
       <li key={user.id} id={"user-" + user.id}>
+        {this.gravatar_img(user.username, user.gravatar_id)}
         <a href={'/users/' + user.id}>
           {user.username}
         </a>

@@ -7,8 +7,12 @@ class User < ApplicationRecord
     length: { maximum: 50 },
     uniqueness: { case_sensitive: false }
   has_many :microposts, dependent: :destroy
+  before_save :generate_gravatar_id
 
-  def gravatar_id
-    Digest::MD5::hexdigest(email.downcase)
-  end
+
+  private
+
+    def generate_gravatar_id
+      self.gravatar_id = Digest::MD5::hexdigest(email.downcase)
+    end
 end

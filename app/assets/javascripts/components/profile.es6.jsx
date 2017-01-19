@@ -80,7 +80,7 @@ class Profile extends React.Component {
   gravatar_img() {
     return (
       <img className="gravatar" alt={this.props.user.username}
-      src={"https://secure.gravatar.com/avatar/" + this.props.gravatar_id + "?s=50"} />
+      src={"https://secure.gravatar.com/avatar/" + this.props.user.gravatar_id + "?s=50"} />
     )
   }
 

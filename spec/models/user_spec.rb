@@ -35,5 +35,32 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "when saved to the database" do
+    it "is saved with gravatar_id" do
+      id = Digest::MD5::hexdigest(@user.email.downcase)
+      expect(@user.gravatar_id).to eq(id)
+    end
+  end
 
+  describe "when email changes" do
+    it "has new gravtar_id" do
+      email = "drpepper@example.com"
+      @user.email = email
+      @user.save
+      @user.reload
+      expect(@user.gravatar_id).to eq(Digest::MD5::hexdigest(email))
+    end
+  end
+
+  describe "when email change is invalid" do
+    it "does not save new gravtar_id" do
+      email = @user.email
+      invalid_email = ""
+      @user.email = invalid_email
+      @user.save
+      @user.reload
+      expect(@user.gravatar_id).not_to eq(Digest::MD5::hexdigest(invalid_email))
+      expect(@user.gravatar_id).to eq(Digest::MD5::hexdigest(email))
+    end
+  end
 end
