@@ -5,10 +5,13 @@ class Profile extends React.Component {
       page: 1,
       next_page: 0,
       microposts: [],
+      micropost_total: this.props.micropost_total,
       errors: {}
     };
     this.showMicroposts = this.showMicroposts.bind(this);
     this.fetchMicroposts = this.fetchMicroposts.bind(this);
+    this.incrementMicropostTotal = this.incrementMicropostTotal.bind(this);
+    this.decrementMicropostTotal = this.decrementMicropostTotal.bind(this);
   }
 
   componentDidMount() {
@@ -77,6 +80,14 @@ class Profile extends React.Component {
       );
   }
 
+  incrementMicropostTotal() {
+    this.setState({ micropost_total: this.state.micropost_total + 1 });
+  }
+
+  decrementMicropostTotal() {
+    this.setState({ micropost_total: this.state.micropost_total - 1 });
+  }
+
   gravatar_img() {
     return (
       <img className="gravatar" alt={this.props.user.username}
@@ -96,11 +107,14 @@ class Profile extends React.Component {
             </span>
           </section>
           <section className="micropost_form">
-            <MicropostForm refreshFeed={this.fetchMicroposts} />
+            {this.props.is_current_user &&
+              <MicropostForm refreshFeed={this.fetchMicroposts} 
+                incTotal={this.incrementMicropostTotal} />
+            }
           </section>
         </aside>
           <div className="col-md-8">
-            <h3>Microposts ({this.props.microposts_total})</h3>
+            <h3>Microposts ({this.state.micropost_total})</h3>
             {this.handlePagination()}
             <ol className="microposts">
               {this.showMicroposts()}

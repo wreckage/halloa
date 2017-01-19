@@ -20,8 +20,9 @@ class MicropostForm extends React.Component {
       data: { micropost: { content: this.state.value } },
       url: '/microposts',
       success: (res) => {
-        this.setState({ value: '', errors: [] });
-        this.props.refreshFeed();
+        this.setState({ value: '', errors: [] }); // reset the state
+        this.props.refreshFeed(); // refresh the feed
+        this.props.incTotal();    // increment total microposts count
         $('#micropost_submission_error').removeClass('alert alert-danger');
       },
       error: (res) => {
