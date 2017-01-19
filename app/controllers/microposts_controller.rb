@@ -7,7 +7,14 @@ class MicropostsController < ApplicationController
       to_json = { next_page: @user.microposts.paginate(page: params[:page]).next_page,
                   microposts: @user.microposts.paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username] } } )
       }
-      render json: to_json
+      respond_to do |format|
+        format.json do
+          render json: to_json
+        end
+        format.html do
+          redirect_to root_url
+        end
+      end
     else
       redirect_to root_url
     end
@@ -18,10 +25,14 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
-    if @micropost.save
-      render json: ActiveSupport::JSON.encode({ success: "Post successful" })
-    else
-      render json: { errors: @micropost.errors.full_messages }, status: 422
+    respond_to do |format|
+      format.json do
+        if @micropost.save
+          render json: ActiveSupport::JSON.encode({ success: "Post successful" })
+        else
+          render json: { errors: @micropost.errors.full_messages }, status: 422
+        end
+      end
     end
   end
 

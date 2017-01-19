@@ -14,7 +14,7 @@ class Profile extends React.Component {
   componentDidMount() {
     const url = (
       '/users/' + this.props.user.id + 
-      '/microposts.json?page=' + this.state.page)
+      '/microposts?page=' + this.state.page)
     $.getJSON(url, (data) => { 
       this.setState({ microposts: data.microposts, next_page: data.next_page })
     });
@@ -36,8 +36,6 @@ class Profile extends React.Component {
   }
 
   fetchMicroposts(e, direction) {
-    console.log("hey!!!");
-    console.log(direction);
     e && e.preventDefault();
     let page = this.state.next_page;
     if (!direction)
@@ -47,7 +45,7 @@ class Profile extends React.Component {
 
     const url = (
       '/users/' + this.props.user.id + 
-      '/microposts.json?page=' + page)
+      '/microposts?page=' + page)
     $.ajax({
       method: 'GET',
       dataType: "json",
