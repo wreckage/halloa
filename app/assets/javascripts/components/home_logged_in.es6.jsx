@@ -7,16 +7,22 @@ class HomeLoggedIn extends React.Component {
     //$.getJSON('/user.json', (data) => this.setState({ user: data }))
   }
 
-  render() {                   
+  render() {
     return (
       <div className="row">    
         <aside className="col-md-4">    
           <section className="user_info"> 
-            <img className="gravatar" alt={this.props.user.username}
-            src={"https://secure.gravatar.com/avatar/" + this.props.user.gravatar_id + "?s=#50"} />
+            <ShowGravatar 
+              username={this.props.user.username} 
+              gravatar_id={this.props.user.gravatar_id} 
+              size="50" 
+            />
             <h1>{this.props.user.username}</h1>
             <span>
-                View my profile
+              <a href={"/users/" + this.props.user.id}>View my profile</a>
+            </span>
+            <span>
+              Microposts ({this.props.micropost_total})
             </span>
           </section>
         </aside>
