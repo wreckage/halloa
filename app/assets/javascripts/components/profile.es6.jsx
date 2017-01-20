@@ -79,7 +79,11 @@ class Profile extends React.Component {
               next_page={this.state.next_page}
               fetchIt={this.fetchMicroposts}
             />
-            <ShowMicroposts microposts={this.state.microposts} />
+            <ShowMicroposts 
+              microposts={this.state.microposts}
+              refreshFeed={this.fetchMicroposts} 
+              decTotal={this.updateMicropostTotal} 
+            />
             <HandlePagination 
               page={this.state.page}
               next_page={this.state.next_page}
