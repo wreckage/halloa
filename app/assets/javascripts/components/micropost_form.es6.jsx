@@ -22,7 +22,7 @@ class MicropostForm extends React.Component {
       success: (res) => {
         this.setState({ value: '', errors: [] }); // reset the state
         this.props.refreshFeed(); // refresh the feed
-        this.props.incTotal();    // increment total microposts count
+        this.props.incTotal(1);    // increment total microposts count
         $('#micropost_submission_error').removeClass('alert alert-danger');
       },
       error: (res) => {
@@ -37,7 +37,9 @@ class MicropostForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <div id="micropost_submission_error" >{this.state.errors}</div>
         <div className="field">
-          <textarea placeholder="Compose a new micropost..." value={this.state.value} onChange={this.handleChange} />
+          <textarea id="micropost_content" 
+            placeholder="Compose a new micropost..." 
+            value={this.state.value} onChange={this.handleChange} />
         </div>
         <input id="post_button" className="btn btn-primary" type="submit" value="Post" />
       </form>

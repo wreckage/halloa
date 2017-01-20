@@ -12,9 +12,9 @@ class HomeLoggedIn extends React.Component {
       <div className="row">    
         <aside className="col-md-4">    
           <section className="user_info"> 
-            <img className="gravatar" alt={this.props.user.name}
+            <img className="gravatar" alt={this.props.user.username}
             src={"https://secure.gravatar.com/avatar/" + this.props.user.gravatar_id + "?s=#50"} />
-            <h1>{this.props.user.name}</h1>
+            <h1>{this.props.user.username}</h1>
             <span>
                 View my profile
             </span>

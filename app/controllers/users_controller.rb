@@ -2,15 +2,11 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:show]
 
   def show
-    if user_signed_in?
-      @user = current_user
-      render component: "Profile", 
-        props: { user: @user.as_json(only: [:id, :username, :gravatar_id]), 
-                 micropost_total: @user.microposts.count,
-                 is_current_user: (@user == current_user) }
-    else
-      redirect_to root_url
-    end
+    @user = User.find(params[:id])
+    render component: "Profile", 
+      props: { user: @user.as_json(only: [:id, :username, :gravatar_id]), 
+               micropost_total: @user.microposts.count,
+               is_current_user: (@user == current_user) }
   end
 
   def index

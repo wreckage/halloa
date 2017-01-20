@@ -1,10 +1,9 @@
 class HomeController < ApplicationController
   def index
     if user_signed_in?
-      @user = current_user
-      @to_json = { user: { id: @user.id, 
-                        name: @user.username } }
-      render component: "HomeLoggedIn", props: ActiveSupport::JSON.encode(@to_json)
+      render component: "HomeLoggedIn", 
+        props: { user: current_user.as_json(only: [:id, :username, :gravatar_id]), 
+               micropost_total: current_user.microposts.count }
     else
       render component: "Home"
     end

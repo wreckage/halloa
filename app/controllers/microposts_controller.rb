@@ -1,23 +1,16 @@
 class MicropostsController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :destroy]
-  #should allow for all logged in users
+  before_action :authenticate_user!
+  before_action :check_format, only: [:read]
+
+  def feed
+  end
+
   def read
     @user = User.find(params[:id])
-    if @user == current_user
-      to_json = { next_page: @user.microposts.paginate(page: params[:page]).next_page,
-                  microposts: @user.microposts.paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username, :gravatar_id] } } )
-      }
-      respond_to do |format|
-        format.json do
-          render json: to_json
-        end
-        format.html do
-          redirect_to root_url
-        end
-      end
-    else
-      redirect_to root_url
-    end
+    to_json = { next_page: @user.microposts.paginate(page: params[:page]).next_page,
+                microposts: @user.microposts.paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username, :gravatar_id] } } )
+    }
+    render json: to_json
   end
 
   def show
@@ -46,5 +39,11 @@ class MicropostsController < ApplicationController
     def micropost_params
       params.require(:micropost).permit(:content)
     end
+
+    # Respond only to json requests. see http://stackoverflow.com/a/14579896
+    def check_format
+        redirect_to root_url unless params[:format] == 'json' || request.headers["Accept"] =~ /json/
+    end
+
 
 end
