@@ -7,6 +7,8 @@ class UsersController < ApplicationController
       props: { user: @user.as_json(only: [:id, :username, :gravatar_id]), 
                micropost_total: @user.microposts.count,
                is_current_user: (@user == current_user) }
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_url
   end
 
   def index

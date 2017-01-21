@@ -22,15 +22,11 @@ class MicropostsController < ApplicationController
   end
 
   def create
-    @micropost = current_user.microposts.build(micropost_params_create)
-    respond_to do |format|
-      format.json do
-        if @micropost.save
-          render json: { success: "Post successful" }, status: 201
-        else
-          render json: { errors: @micropost.errors.full_messages }, status: 422
-        end
-      end
+    micropost = current_user.microposts.build(micropost_params_create)
+    if micropost.save
+      render json: { success: "Post successful" }, status: 201
+    else
+      render json: { errors: @micropost.errors.full_messages }, status: 422
     end
   end
 
