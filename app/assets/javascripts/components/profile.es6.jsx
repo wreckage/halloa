@@ -5,7 +5,8 @@ class Profile extends React.Component {
       page: 1,
       next_page: 0,
       microposts: [],
-      micropost_total: this.props.micropost_total,
+      microposts_count: this.props.user.microposts_count,
+      followers_count: this.props.user.followers_count,
       errors: {}
     };
     this.fetchMicroposts = this.fetchMicroposts.bind(this);
@@ -45,7 +46,7 @@ class Profile extends React.Component {
   }
 
   updateMicropostTotal(opt) {
-    typeof opt === "number" && this.setState({ micropost_total: this.state.micropost_total + opt });
+    typeof opt === "number" && this.setState({ microposts_count: this.state.microposts_count + opt });
   }
 
   render() {
@@ -63,8 +64,14 @@ class Profile extends React.Component {
                 Hello from inside Profile component
             </span>
           </section>
+          <section className="stats">
+            <UserStats 
+              user={this.props.user} 
+              followers_count={this.state.followers_count} 
+            />
+          </section>
           <section className="micropost_form">
-            {this.props.is_current_user &&
+            {this.props.status.is_current_user &&
               <MicropostForm 
                 refreshFeed={this.fetchMicroposts} 
                 incTotal={this.updateMicropostTotal} 
@@ -73,7 +80,13 @@ class Profile extends React.Component {
           </section>
         </aside>
           <div className="col-md-8">
-            <h3>Microposts ({this.state.micropost_total})</h3>
+            {this.props.status.is_signed_in &&
+              <FollowButton 
+                updateFollowersCount={this.updateFollowersCount} 
+                is_following={this.props.status.is_following} 
+                />
+            }
+            <h3>Microposts ({this.state.microposts_count})</h3>
             <HandlePagination 
               page={this.state.page}
               next_page={this.state.next_page}

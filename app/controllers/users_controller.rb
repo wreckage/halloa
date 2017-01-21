@@ -1,12 +1,19 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:show]
+  # before_action :authenticate_user!, only: [:show]
 
   def show
-    @user = User.find(params[:id])
+    user = User.find(params[:id])
+    is_current_user = (user == current_user)
+    is_following = current_user.following?(user)
+    stat = Struct.new(:is_current_user, :is_following, :is_signed_in)
+    status = stat.new(is_current_user, is_following, user_signed_in?)
     render component: "Profile", 
-      props: { user: @user.as_json(only: [:id, :username, :gravatar_id]), 
-               micropost_total: @user.microposts.count,
-               is_current_user: (@user == current_user) }
+           props: { user: user.as_json(
+                      only: [:id, :username, :gravatar_id], 
+                      methods: [:followers_count, 
+                                :following_count, 
+                                :microposts_count]),
+                    status: status }
   rescue ActiveRecord::RecordNotFound
     redirect_to root_url
   end

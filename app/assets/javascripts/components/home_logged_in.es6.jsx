@@ -5,7 +5,7 @@ class HomeLoggedIn extends React.Component {
       page: 1,
       next_page: 0,
       microposts: [],
-      micropost_total: this.props.micropost_total,
+      microposts_count: this.props.user.microposts_count,
       errors: {}
     };
     this.fetchFeed = this.fetchFeed.bind(this);
@@ -45,7 +45,7 @@ class HomeLoggedIn extends React.Component {
   }
 
   updateMicropostTotal(opt) {
-    typeof opt === "number" && this.setState({ micropost_total: this.state.micropost_total + opt });
+    typeof opt === "number" && this.setState({ microposts_count: this.state.microposts_count + opt });
   }
 
   render() {
@@ -63,8 +63,14 @@ class HomeLoggedIn extends React.Component {
               <a href={"/users/" + this.props.user.id}>View my profile</a>
             </span>
             <span>
-              Microposts ({this.state.micropost_total})
+              Microposts ({this.state.microposts_count})
             </span>
+          </section>
+          <section className="stats">
+            <UserStats 
+              user={this.props.user} 
+              followers_count={this.props.user.followers_count} 
+            />
           </section>
           <section className="micropost_form">
             <MicropostForm 

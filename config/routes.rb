@@ -9,5 +9,11 @@ Rails.application.routes.draw do
   get '/users/:id/feed', to: 'microposts#feed', as: :user_feed
   # put '/users/:id/microposts', to: 'microposts#update', as: :microposts_update
   # delete '/users/:id/microposts', to: 'microposts#destroy', as: :microposts_destroy
-  resources :microposts, only: [:create, :update, :destroy, :show]
+  resources :microposts,   only: [:create, :update, :destroy, :show]
+  resource :relationships, only: [:create, :destroy]
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
 end

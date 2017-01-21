@@ -63,4 +63,14 @@ RSpec.describe User, type: :model do
       expect(@user.gravatar_id).to eq(Digest::MD5::hexdigest(email))
     end
   end
+
+  it "follows and unfollowers another user" do
+    user = FactoryGirl.create(:user)
+    expect(@user.following?(user)).to be false
+    @user.follow(user)
+    expect(@user.following?(user)).to be true
+    expect(user.followers.include?(@user)).to be true
+    @user.unfollow(user)
+    expect(@user.following?(user)).to be false
+  end
 end

@@ -26,7 +26,7 @@ class MicropostsController < ApplicationController
     if micropost.save
       render json: { success: "Post successful" }, status: 201
     else
-      render json: { errors: @micropost.errors.full_messages }, status: 422
+      render json: { errors: micropost.errors.full_messages }, status: 422
     end
   end
 
