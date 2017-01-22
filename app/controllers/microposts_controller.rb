@@ -4,9 +4,13 @@ class MicropostsController < ApplicationController
 
   def feed
     user = User.find(params[:id])
-    to_json = { next_page: Micropost.where("user_id = ?", user.id).paginate(page: params[:page]).next_page,
-                microposts: Micropost.where("user_id = ?", user.id).paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username, :gravatar_id] } } ),
-               is_current_user: (user == current_user) }
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE  follower_id = :user_id"
+    microposts = Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: params[:id])
+    to_json = { next_page: microposts.paginate(page: params[:page]).next_page,
+                microposts: microposts.paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username, :gravatar_id] } } ),
+                is_current_user: (user == current_user) }
     render json: to_json
   end
 
@@ -56,6 +60,4 @@ class MicropostsController < ApplicationController
     def check_format
         redirect_to root_url unless params[:format] == 'json' || request.headers["Accept"] =~ /json/
     end
-
-
 end

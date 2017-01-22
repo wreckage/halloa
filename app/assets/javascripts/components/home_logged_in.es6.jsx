@@ -29,7 +29,7 @@ class HomeLoggedIn extends React.Component {
     else if (direction === "prev")
       page = this.state.page - 1;
 
-    const url = '/users/' + this.props.user.id + '/microposts?page=' + page
+    const url = '/users/' + this.props.user.id + '/feed?page=' + page
     $.ajax({
       method: 'GET',
       dataType: "json",
@@ -100,4 +100,8 @@ class HomeLoggedIn extends React.Component {
       </div>
     );  
   }     
+}
+
+HomeLoggedIn.propTypes = {
+  user: React.PropTypes.object
 }

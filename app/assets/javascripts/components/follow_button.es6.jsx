@@ -27,8 +27,7 @@ class FollowButton extends React.Component {
       success: (res) => {
         this.props.updateFollowers(this.state.num);    // update total followers count
       },
-      error: (res) => {
-      }
+      error: (res) => {}
     });
   }
 
@@ -41,3 +40,8 @@ class FollowButton extends React.Component {
   }
 }
 
+FollowButton.propTypes = {
+  followed_id: React.PropTypes.number,
+  is_following: React.PropTypes.bool,
+  updateFollowers: React.PropTypes.func
+}

@@ -32,3 +32,8 @@ class UserStats extends React.Component {
     );
   }
 }
+
+UserStats.propTypes = {
+  user:            React.PropTypes.object,
+  followers_count: React.PropTypes.number
+}

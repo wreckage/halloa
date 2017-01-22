@@ -52,8 +52,10 @@ class Profile extends React.Component {
   }
 
   updateFollowers(num) {
-    this.setState({ followers_count: this.state.followers_count + num });
-    this.setState({ is_following: !this.state.is_following });
+    this.setState({ 
+      followers_count: this.state.followers_count + num,
+      is_following: !this.state.is_following
+    });
   }
 
   render() {
@@ -114,4 +116,9 @@ class Profile extends React.Component {
       </div>
     );
   }
+}
+
+Profile.propTypes = {
+  user:   React.PropTypes.object,
+  status: React.PropTypes.object
 }

@@ -19,7 +19,7 @@ class ShowMicroposts extends React.Component {
         <li key={micropost.id} id={"micropost-" + micropost.id}>
           <ShowGravatar 
             username={micropost.user.username} 
-            gravatar_id={micropost.user.gravatar_id} 
+            gravatar_id={micropost.user.gravatar_id}
             size="50" 
           />
           <span className="user">
@@ -45,7 +45,7 @@ class ShowMicroposts extends React.Component {
 
 
 ShowMicroposts.propTypes = {
-  microposts: React.PropTypes.array,
+  microposts:  React.PropTypes.array,
   refreshFeed: React.PropTypes.func,
-  decTotal: React.PropTypes.func
+  decTotal:    React.PropTypes.func
 }
