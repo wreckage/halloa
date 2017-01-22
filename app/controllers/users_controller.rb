@@ -3,8 +3,13 @@ class UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    is_current_user = (user == current_user)
-    is_following = current_user.following?(user)
+    if user_signed_in?
+      is_current_user = (user == current_user)
+      is_following = current_user.following?(user)
+    else
+      is_current_user = false
+      is_following = false
+    end
     stat = Struct.new(:is_current_user, :is_following, :is_signed_in)
     status = stat.new(is_current_user, is_following, user_signed_in?)
     render component: "Profile", 

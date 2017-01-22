@@ -1,5 +1,5 @@
 class MicropostsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:read]
   before_action :check_format, only: [:read, :feed]
 
   def feed

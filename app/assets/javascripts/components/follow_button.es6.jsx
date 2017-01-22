@@ -1,29 +1,43 @@
-function FollowButton(props) {
-  let text = props.is_following ? "Unfollow" : "Follow";
-  let verb = props.is_following ? "DELETE" : "POST";
-  return (
-    <div id="follow_form">
-      <button onClick={(e) => sendIt(e, verb)}>{text}</button>
-    </div>
-  )
+class FollowButton extends React.Component {
+  constructor(props) {         
+    super(props);              
+    this.state = {
+      text: this.props.is_following ? "Unfollow" : "Follow",
+      verb: this.props.is_following ? "DELETE" : "POST",
+      num:  this.props.is_following ? -1 : 1
+    };
+    this.sendRequest = this.sendRequest.bind(this);
+  }
+
+  // update state when props change
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      text: nextProps.is_following ? "Unfollow" : "Follow",
+      verb: nextProps.is_following ? "DELETE" : "POST",
+      num:  nextProps.is_following ? -1 : 1
+    });
+  }
+
+  sendRequest(e) {
+    e.preventDefault();
+    $.ajax({
+      method: this.state.verb,
+      data: { followed_id: this.props.followed_id },
+      url: '/relationships',
+      success: (res) => {
+        this.props.updateFollowers(this.state.num);    // update total followers count
+      },
+      error: (res) => {
+      }
+    });
+  }
+
+  render() {
+    return (
+      <div id="follow_form">
+        <button onClick={this.sendRequest}>{this.state.text}</button>
+      </div>
+    );
+  }
 }
 
-function sendIt(e, verb) {
-  e.preventDefault();
-  $.ajax({
-    method: verb,
-    //data: { micropost: { content: this.state.value } },
-    url: '/relationships',
-    success: (res) => {
-      // change these....
-      this.setState({ value: '', errors: [] }); // reset the state
-      this.props.refreshFeed(); // refresh the feed
-      this.props.incTotal(1);    // increment total microposts count
-      $('#micropost_submission_error').removeClass('alert alert-danger');
-    },
-    error: (res) => {
-      this.setState({ errors: res.responseJSON.errors });
-      $('#micropost_submission_error').addClass('alert alert-danger');
-    }
-  });
-}

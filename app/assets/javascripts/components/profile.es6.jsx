@@ -7,10 +7,12 @@ class Profile extends React.Component {
       microposts: [],
       microposts_count: this.props.user.microposts_count,
       followers_count: this.props.user.followers_count,
+      is_following: this.props.status.is_following,
       errors: {}
     };
     this.fetchMicroposts = this.fetchMicroposts.bind(this);
     this.updateMicropostTotal = this.updateMicropostTotal.bind(this);
+    this.updateFollowers = this.updateFollowers.bind(this);
   }
 
   componentDidMount() {
@@ -45,8 +47,13 @@ class Profile extends React.Component {
     });
   }
 
-  updateMicropostTotal(opt) {
-    typeof opt === "number" && this.setState({ microposts_count: this.state.microposts_count + opt });
+  updateMicropostTotal(num) {
+    this.setState({ microposts_count: this.state.microposts_count + num });
+  }
+
+  updateFollowers(num) {
+    this.setState({ followers_count: this.state.followers_count + num });
+    this.setState({ is_following: !this.state.is_following });
   }
 
   render() {
@@ -80,10 +87,11 @@ class Profile extends React.Component {
           </section>
         </aside>
           <div className="col-md-8">
-            {this.props.status.is_signed_in &&
+            {(this.props.status.is_signed_in && !this.props.status.is_current_user) &&
               <FollowButton 
-                updateFollowersCount={this.updateFollowersCount} 
-                is_following={this.props.status.is_following} 
+                followed_id={this.props.user.id}
+                is_following={this.state.is_following}
+                updateFollowers={this.updateFollowers}
                 />
             }
             <h3>Microposts ({this.state.microposts_count})</h3>
