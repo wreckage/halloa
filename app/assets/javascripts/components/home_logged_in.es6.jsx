@@ -90,6 +90,8 @@ class HomeLoggedIn extends React.Component {
               microposts={this.state.microposts}
               refreshFeed={this.fetchFeed} 
               decTotal={this.updateMicropostTotal} 
+              user_id={this.props.user.id}
+              is_current_user={true}
             />
             <HandlePagination 
               page={this.state.page}
@@ -103,5 +105,6 @@ class HomeLoggedIn extends React.Component {
 }
 
 HomeLoggedIn.propTypes = {
-  user: React.PropTypes.object
+  user: React.PropTypes.object,
+  is_current_user: React.PropTypes.bool
 }

@@ -30,9 +30,12 @@ class ShowMicroposts extends React.Component {
           <span className="content">{micropost.content}</span>
           <span className="timestamp">
             Posted: {micropost.created_at}
+            {this.props.is_current_user &&
+             (micropost.user.id == this.props.user_id) &&
             <a href="#" 
               data-confirm="Are you sure?" 
               onClick={(e) => this.deleteMicropost(e, micropost.id)}> delete</a>
+            }
           </span>
         </li>
     );
@@ -45,7 +48,9 @@ class ShowMicroposts extends React.Component {
 
 
 ShowMicroposts.propTypes = {
-  microposts:  React.PropTypes.array,
-  refreshFeed: React.PropTypes.func,
-  decTotal:    React.PropTypes.func
+  microposts:      React.PropTypes.array,
+  refreshFeed:     React.PropTypes.func,
+  decTotal:        React.PropTypes.func,
+  user_id:         React.PropTypes.number,
+  is_current_user: React.PropTypes.bool
 }

@@ -106,6 +106,8 @@ class Profile extends React.Component {
               microposts={this.state.microposts}
               refreshFeed={this.fetchMicroposts} 
               decTotal={this.updateMicropostTotal} 
+              user_id={this.props.user.id}
+              is_current_user={this.props.status.is_current_user}
             />
             <HandlePagination 
               page={this.state.page}
