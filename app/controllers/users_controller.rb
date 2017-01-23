@@ -26,8 +26,8 @@ class UsersController < ApplicationController
   def following
     respond_to do |format|
       format.json do
-        render json: { users: User.find(params[:id]).followers.paginate(page: params[:page]).as_json(only: [:id, :username, :gravatar_id]),
-                       next_page: User.find(params[:id]).followers.paginate(page: params[:page]).next_page }
+        render json: { users: User.find(params[:id]).following.paginate(page: params[:page]).as_json(only: [:id, :username, :gravatar_id]),
+                       next_page: User.find(params[:id]).following.paginate(page: params[:page]).next_page }
       end
       format.html do
         user = User.find(params[:id])
@@ -45,18 +45,24 @@ class UsersController < ApplicationController
   end
 
   def followers
-    #user = User.find(params[:id])
-    #users = user.followers.paginate(page: params[:page])
-    #stat = Struct.new(:is_current_user, :title)
-    #status = stat.new((user == current_user), "Followers")
-    #render component: "Follows",
-    #       props: { user: user.as_json(
-    #                  only: [:id, :username, :gravatar_id], 
-    #                  methods: [:followers_count, 
-    #                            :following_count, 
-    #                            :microposts_count]),
-    #                users: users.as_json(only: [:id, :username, :gravatar_id]),
-    #                status: status }
+    respond_to do |format|
+      format.json do
+        render json: { users: User.find(params[:id]).followers.paginate(page: params[:page]).as_json(only: [:id, :username, :gravatar_id]),
+                       next_page: User.find(params[:id]).followers.paginate(page: params[:page]).next_page }
+      end
+      format.html do
+        user = User.find(params[:id])
+        # users = user.following.paginate(page: params[:page])
+        render component: "UserIndex",
+               props: { url: followers_user_path(user),
+                        title: "Followers", 
+                        user: user.as_json(
+                          only: [:id, :username, :gravatar_id], 
+                          methods: [:followers_count, 
+                                    :following_count, 
+                                    :microposts_count]) }
+      end
+    end
   end
 
   def index
