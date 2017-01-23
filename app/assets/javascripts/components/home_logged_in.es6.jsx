@@ -17,7 +17,7 @@ class HomeLoggedIn extends React.Component {
       '/users/' + this.props.user.id + 
       '/feed?page=' + this.state.page)
     $.getJSON(url, (data) => { 
-      this.setState({ microposts: data.microposts, next_page: data.next_page })
+      this.setState({ microposts: data.microposts, next_page: data.next_page });
     });
   }
 
@@ -52,26 +52,12 @@ class HomeLoggedIn extends React.Component {
     return (
       <div className="row">    
         <aside className="col-md-4">    
-          <section className="user_info"> 
-            <ShowGravatar 
-              username={this.props.user.username} 
-              gravatar_id={this.props.user.gravatar_id} 
-              size="50" 
-            />
-            <h1>{this.props.user.username}</h1>
-            <span>
-              <a href={"/users/" + this.props.user.id}>View my profile</a>
-            </span>
-            <span>
-              Microposts ({this.state.microposts_count})
-            </span>
-          </section>
-          <section className="stats">
-            <UserStats 
-              user={this.props.user} 
-              followers_count={this.props.user.followers_count} 
-            />
-          </section>
+          <UserInfo
+            user={this.props.user}
+            followers_count={this.props.user.followers_count} 
+            microposts_count={this.state.microposts_count}
+            show_profile_link={true}
+          />
           <section className="micropost_form">
             <MicropostForm 
               refreshFeed={this.fetchFeed} 

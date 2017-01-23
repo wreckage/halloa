@@ -54,18 +54,47 @@ class UserIndex extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <h1>{this.props.title}</h1>
-        <ul className="users">
-          {this.showUsers()}
-        </ul>
-        <HandlePagination 
-          page={this.state.page}
-          next_page={this.state.next_page}
-          fetchIt={this.fetchUsers}
-        />
-      </div>
-    );
+    if (this.props.user) {
+      markup = (
+        <div>
+          <div className="row">
+            <aside className="col-md-4">
+                <UserInfo
+                  user={this.props.user}
+                  followers_count={this.props.user.followers_count} 
+                  microposts_count={this.props.user.microposts_count}
+                  show_profile_link={true}
+                />
+            </aside>
+            <div className="col-md-8">
+              <h3>{this.props.title}</h3>
+              <ul className="users">
+                {this.showUsers()}
+              </ul>
+              <HandlePagination 
+                page={this.state.page}
+                next_page={this.state.next_page}
+                fetchIt={this.fetchUsers}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      markup = (
+        <div>
+          <h1>{this.props.title}</h1>
+          <ul className="users">
+            {this.showUsers()}
+          </ul>
+          <HandlePagination 
+            page={this.state.page}
+            next_page={this.state.next_page}
+            fetchIt={this.fetchUsers}
+          />
+        </div>
+      );
+    }
+    return markup;
   }
 }

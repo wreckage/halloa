@@ -34,7 +34,12 @@ class UsersController < ApplicationController
         # users = user.following.paginate(page: params[:page])
         render component: "UserIndex",
                props: { url: following_user_path(user),
-                        title: "Following" }
+                        title: "Following", 
+                        user: user.as_json(
+                          only: [:id, :username, :gravatar_id], 
+                          methods: [:followers_count, 
+                                    :following_count, 
+                                    :microposts_count]) }
       end
     end
   end
@@ -63,7 +68,8 @@ class UsersController < ApplicationController
       format.html do
         render component: "UserIndex",
                props: { url: users_path,
-                        title: "All Users" }
+                        title: "All Users",
+                        user: nil }
       end
     end
   end

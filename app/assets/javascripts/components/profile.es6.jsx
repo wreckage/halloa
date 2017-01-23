@@ -62,23 +62,12 @@ class Profile extends React.Component {
     return (
       <div className="row">
         <aside className="col-md-4">
-          <section className="user_info"> 
-            <ShowGravatar 
-              username={this.props.user.username} 
-              gravatar_id={this.props.user.gravatar_id} 
-              size="50" 
-            />
-            <h1>{this.props.user.username}</h1>
-            <span>
-                Hello from inside Profile component
-            </span>
-          </section>
-          <section className="stats">
-            <UserStats 
-              user={this.props.user} 
-              followers_count={this.state.followers_count} 
-            />
-          </section>
+          <UserInfo
+            user={this.props.user}
+            followers_count={this.state.followers_count} 
+            microposts_count={this.state.microposts_count}
+            show_profile_link={false}
+          />
           <section className="micropost_form">
             {this.props.status.is_current_user &&
               <MicropostForm 
