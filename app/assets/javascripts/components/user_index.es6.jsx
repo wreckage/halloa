@@ -10,26 +10,9 @@ class UserIndex extends React.Component {
   }
 
   componentDidMount() {
-    $.getJSON('/users', (data) => {
+    $.getJSON(this.props.url, (data) => {
       this.setState({ users: data.users, next_page: data.next_page })
     });
-  }
-
-  handlePagination() {
-    return (
-      <ul className="pagination">
-        {this.state.page > 1 &&
-          <li className="previous previous_page ">
-            <a href="#" onClick={(e) => this.fetchUsers(e, "prev")}>&#8592;Prev</a>
-          </li>
-        }
-        {this.state.next_page > 0 &&
-          <li className="next next_page ">
-            <a href="#" onClick={(e) => this.fetchUsers(e, "next")}>Next &#8594;</a>
-          </li>
-        }
-      </ul>
-      );
   }
 
   fetchUsers(e, direction) {
@@ -40,7 +23,7 @@ class UserIndex extends React.Component {
     else if (direction == "prev")
       page = this.state.page - 1;
 
-    const url = '/users?page=' + page
+    const url = this.props.url + '?page=' + page
     $.ajax({
       method: 'GET',
       dataType: "json",
@@ -55,17 +38,14 @@ class UserIndex extends React.Component {
     });
   }
 
-  gravatar_img(username, grav_id) {
-    return (
-      <img className="gravatar" alt={username}
-      src={"https://secure.gravatar.com/avatar/" + grav_id + "?s=50"} />
-    )
-  }
-
   showUsers() {
     return this.state.users.map((user) =>
       <li key={user.id} id={"user-" + user.id}>
-        {this.gravatar_img(user.username, user.gravatar_id)}
+        <ShowGravatar 
+          username={user.username} 
+          gravatar_id={user.gravatar_id} 
+          size="50" 
+        />
         <a href={'/users/' + user.id}>
           {user.username}
         </a>
@@ -76,11 +56,15 @@ class UserIndex extends React.Component {
   render() {
     return (
       <div>
-        <h1>All Users</h1>
+        <h1>{this.props.title}</h1>
         <ul className="users">
           {this.showUsers()}
         </ul>
-        {this.handlePagination()}
+        <HandlePagination 
+          page={this.state.page}
+          next_page={this.state.next_page}
+          fetchIt={this.fetchUsers}
+        />
       </div>
     );
   }

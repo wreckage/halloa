@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # before_action :authenticate_user!, only: [:show]
+  before_action :authenticate_user!, except: [:show]
 
   def show
     user = User.find(params[:id])
@@ -23,6 +23,37 @@ class UsersController < ApplicationController
     redirect_to root_url
   end
 
+  def following
+    respond_to do |format|
+      format.json do
+        render json: { users: User.find(params[:id]).followers.paginate(page: params[:page]).as_json(only: [:id, :username, :gravatar_id]),
+                       next_page: User.find(params[:id]).followers.paginate(page: params[:page]).next_page }
+      end
+      format.html do
+        user = User.find(params[:id])
+        # users = user.following.paginate(page: params[:page])
+        render component: "UserIndex",
+               props: { url: following_user_path(user),
+                        title: "Following" }
+      end
+    end
+  end
+
+  def followers
+    #user = User.find(params[:id])
+    #users = user.followers.paginate(page: params[:page])
+    #stat = Struct.new(:is_current_user, :title)
+    #status = stat.new((user == current_user), "Followers")
+    #render component: "Follows",
+    #       props: { user: user.as_json(
+    #                  only: [:id, :username, :gravatar_id], 
+    #                  methods: [:followers_count, 
+    #                            :following_count, 
+    #                            :microposts_count]),
+    #                users: users.as_json(only: [:id, :username, :gravatar_id]),
+    #                status: status }
+  end
+
   def index
     respond_to do |format|
       format.json do
@@ -30,7 +61,9 @@ class UsersController < ApplicationController
                        next_page: User.all.paginate(page: params[:page]).next_page }
       end
       format.html do
-        render component: "UserIndex"
+        render component: "UserIndex",
+               props: { url: users_path,
+                        title: "All Users" }
       end
     end
   end

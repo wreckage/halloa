@@ -5,6 +5,7 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
+require 'devise'
 require 'support/request_spec_helper'
 require "capybara/rspec"
 
@@ -59,5 +60,5 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.include Capybara::DSL
   config.include RequestSpecHelper, type: :request
-
+  config.include Devise::Test::ControllerHelpers, :type => :controller
 end
