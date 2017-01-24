@@ -68,7 +68,7 @@ class Profile extends React.Component {
             microposts_count={this.state.microposts_count}
             show_profile_link={false}
           />
-          <section className="micropost_form">
+          <section ref="micropost_form" className="micropost_form">
             {this.props.status.is_current_user &&
               <MicropostForm 
                 refreshFeed={this.fetchMicroposts} 
@@ -77,33 +77,35 @@ class Profile extends React.Component {
             }
           </section>
         </aside>
-          <div className="col-md-8">
-            {(this.props.status.is_signed_in && !this.props.status.is_current_user) &&
+        <div className="col-md-8">
+          <div ref="follow_button" className="follow_button">
+          {(this.props.status.is_signed_in && !this.props.status.is_current_user) &&
               <FollowButton 
                 followed_id={this.props.user.id}
                 is_following={this.state.is_following}
                 updateFollowers={this.updateFollowers}
-                />
-            }
-            <h3>Microposts ({this.state.microposts_count})</h3>
-            <HandlePagination 
-              page={this.state.page}
-              next_page={this.state.next_page}
-              fetchIt={this.fetchMicroposts}
-            />
-            <ShowMicroposts 
-              microposts={this.state.microposts}
-              refreshFeed={this.fetchMicroposts} 
-              decTotal={this.updateMicropostTotal} 
-              user_id={this.props.user.id}
-              is_current_user={this.props.status.is_current_user}
-            />
-            <HandlePagination 
-              page={this.state.page}
-              next_page={this.state.next_page}
-              fetchIt={this.fetchMicroposts}
-            />
+              />
+          }
           </div>
+          <h3>Microposts ({this.state.microposts_count})</h3>
+          <HandlePagination 
+            page={this.state.page}
+            next_page={this.state.next_page}
+            fetchIt={this.fetchMicroposts}
+          />
+          <ShowMicroposts 
+            microposts={this.state.microposts}
+            refreshFeed={this.fetchMicroposts} 
+            decTotal={this.updateMicropostTotal} 
+            user_id={this.props.user.id}
+            is_current_user={this.props.status.is_current_user}
+          />
+          <HandlePagination 
+            page={this.state.page}
+            next_page={this.state.next_page}
+            fetchIt={this.fetchMicroposts}
+          />
+        </div>
       </div>
     );
   }
