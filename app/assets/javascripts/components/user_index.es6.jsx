@@ -7,6 +7,7 @@ class UserIndex extends React.Component {
       next_page: 0
     };
     this.showUsers = this.showUsers.bind(this);
+    this.fetchUsers = this.fetchUsers.bind(this);
   }
 
   componentDidMount() {

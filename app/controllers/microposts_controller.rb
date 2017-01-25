@@ -8,10 +8,12 @@ class MicropostsController < ApplicationController
                      WHERE  follower_id = :user_id"
     microposts = Micropost.where("user_id IN (#{following_ids})
                      OR user_id = :user_id", user_id: params[:id])
-    to_json = { next_page: microposts.paginate(page: params[:page]).next_page,
-                microposts: microposts.paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username, :gravatar_id] } } ),
-                is_current_user: (user == current_user) }
-    render json: to_json
+    microposts_json = microposts_as_json(microposts.paginate(page: params[:page]))
+    next_page = microposts.paginate(page: params[:page]).next_page
+    @package = { next_page: next_page,
+                 microposts: microposts_json,
+                 is_current_user: (user == current_user) }
+    render json: @package
   end
 
   def read
@@ -54,6 +56,10 @@ class MicropostsController < ApplicationController
 
     def micropost_params_delete
       params.require(:micropost).permit(:id)
+    end
+
+    def microposts_as_json(microposts)
+      microposts.as_json(include: { user: { only: [:id, :username, :gravatar_id] } } )
     end
 
     # Respond only to json requests. see http://stackoverflow.com/a/14579896
