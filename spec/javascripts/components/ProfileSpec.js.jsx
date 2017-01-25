@@ -16,9 +16,6 @@ describe("Profile Component", function () {
       <Profile user={user} status={status} />
     );
   }
-  ///// Maybe use a beforeEach to create a User and Status,
-  ///// then adjust them in the it functions?
-
   it("displays micropost form if user is current user", function() {
     const status = new Status(false, true, false);
     component = profileComponent(user, status);
@@ -78,96 +75,5 @@ describe("Profile Component", function () {
     // deleting a micropost
     component.updateMicropostTotal(-1);
     expect(component.state.microposts_count).toBe(0);
-  });
-  // since state is updated with ajax success, nothing happens
-  // it("something.. click", function() {
-  //   const status = new Status(false, false, true);
-  //   component = profileComponent(user, status);
-  //   const node = ReactTestUtils.findRenderedDOMComponentWithTag(component, "button");
-  //   ReactTestUtils.Simulate.click(node);
-  //   expect(node.parentNode.id).toEqual('follow_form');
-  //   expect(component.state.followers_count).toBe(1);
-  // });
-});
-
-describe("Profile0", function() {
-  it("doesn't matter", function() {
-    const user = { 
-      id: 1, username: "example", gravatar_id: "x", 
-      microposts_count: 0, followers_count: 0, following_count: 0
-    };
-    const status = { 
-      is_following: false, is_current_user: true, is_signed_in: false
-    };
-
-    const renderer = ReactTestUtils.createRenderer();
-    renderer.render(<Profile user={user} status={status} />);
-    const result = renderer.getRenderOutput();
-    
-    expect(result.type).toBe('div');
-    expect(result.props.children[1].props.children[1].type).toBe('h3');
-    //expect(result.props).toBe(3);
-      //toContain('<h3>Microposts: (0)</h3>');
-
-    // const h3 = ReactTestUtils.scryRenderedComponentsWithType(result, 'h3');
-    // expect(h3.length).toEqual(1);
-  });
-});
-
-describe("Profile part 2", function () {
-   beforeEach(function() {
-    const user = { 
-      id: 1, username: "example", gravatar_id: "x", 
-      microposts_count: 0, followers_count: 0, following_count: 0
-    };
-    const status = { 
-      is_following: false, is_current_user: false, is_signed_in: false
-    };
-
-    this.component = ReactTestUtils.renderIntoDocument(
-      <Profile user={user} status={status} />
-    );
-    this.renderedDOM = () => ReactDOM.findDOMNode(this.component);
-  });
-
-  it("idk", function() {
-    let renderedh3 = this.renderedDOM().querySelectorAll("h3");
-
-    //expect(this.renderedDOM().children.length).toEqual(1);
-    expect(renderedh3.length).toEqual(1);
-    expect(renderedh3[0].textContent).toEqual("Microposts (0)");
-  });
-});
-
-describe("Profile part 2 - testutils", function () {
-   beforeEach(function() {
-    const user = { 
-      id: 1, username: "example", gravatar_id: "x", 
-      microposts_count: 0, followers_count: 0, following_count: 0
-    };
-    const status = { 
-      is_following: false, is_current_user: true, is_signed_in: false
-    };
-
-    this.component = ReactTestUtils.renderIntoDocument(
-      <Profile user={user} status={status} />
-    );
-  });
-
-  it("idk2", function() {
-    let list = ReactTestUtils.findRenderedDOMComponentWithTag(this.component, "h3");
-    // list is an htmlnode
-    expect(list.textContent).toEqual("Microposts (0)");
-
-    let node = ReactTestUtils.findRenderedDOMComponentWithClass(this.component, "micropost_form");
-    expect(node.childNodes.length).toBe(1);
-    //let n = ReactTestUtils.findRenderedComponentWithType(this.component, "UserInfo");
-    //expect(n).toEqual(3);
-
-
-
-    //expect(this.renderedDOM().children.length).toEqual(1);
-    //expect(renderedh3.length).toEqual(1);
-    //expect(renderedh3[0].textContent).toEqual("Microposts (0)");
   });
 });
