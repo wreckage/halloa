@@ -1,7 +1,7 @@
 var ReactTestUtils = React.addons.TestUtils;
 // var React = React;
 
-describe("Profile", function () {
+describe("Profile Component", function () {
   const user = { 
     id: 1, username: "example", gravatar_id: "x", 
     microposts_count: 0, followers_count: 0, following_count: 0

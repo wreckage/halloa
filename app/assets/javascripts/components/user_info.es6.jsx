@@ -23,13 +23,13 @@ class UserInfo extends React.Component {
             gravatar_id={this.props.user.gravatar_id} 
             size="50" 
           />
-          <h1>{this.props.user.username}</h1>
+          <h1 ref="user_info_username">{this.props.user.username}</h1>
+          <span ref="profile_link">
           {this.props.show_profile_link &&
-            <span>
               <a href={"/users/" + this.props.user.id}>View my profile</a>
-            </span>
           }
-          <span>
+          </span>
+          <span ref="user_info_microposts_count">
             Microposts ({this.state.microposts_count})
           </span>
         </section>
