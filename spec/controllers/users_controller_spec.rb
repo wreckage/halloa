@@ -25,6 +25,8 @@ RSpec.describe UsersController, type: :controller do
         expect(assigns["props"][:status]["is_following"]).to be false
         expect(assigns["props"][:status]["is_current_user"]).to be false
         expect(assigns["props"][:status]["is_signed_in"]).to be false
+        expect(assigns["props"][:fetchURL]).to eq(microposts_read_path(@user))
+        expect(assigns["props"][:show_profile_link]).to be false
       end
 
       it "correct when user is signed in and viewing own profile" do

@@ -7,13 +7,15 @@ class HomeController < ApplicationController
                                             :microposts_count])
       stat = Struct.new(:is_current_user, :is_following, :is_signed_in)
       status = stat.new(true, false, true)
-      @props = { user: user, 
+      @component = "Profile"
+      @props = { user: user,
                  status: status,
                  fetchURL: user_feed_path(current_user), 
                  show_profile_link: true }
-      render component: "Profile", props: @props
+      render component: @component, props: @props
     else
-      render component: "Home"
+      @component = "Home"
+      render component: @component
     end
   end
 end
