@@ -60,12 +60,13 @@ class UserIndex extends React.Component {
         <div>
           <div className="row">
             <aside className="col-md-4">
-                <UserInfo
-                  user={this.props.user}
-                  followers_count={this.props.user.followers_count} 
-                  microposts_count={this.props.user.microposts_count}
-                  show_profile_link={true}
-                />
+              <UserInfo
+                user={this.props.user}
+                followers_count={this.props.user.followers_count} 
+                microposts_count={this.props.user.microposts_count}
+                show_profile_link={true}
+              />
+              <FollowAvatars users={this.state.users} />
             </aside>
             <div className="col-md-8">
               <h3>{this.props.title}</h3>
@@ -98,4 +99,10 @@ class UserIndex extends React.Component {
     }
     return markup;
   }
+}
+
+UserIndex.propTypes = {
+  user: React.PropTypes.object,
+  url: React.PropTypes.string,
+  title: React.PropTypes.string
 }

@@ -21,7 +21,7 @@ class UserInfo extends React.Component {
           <ShowGravatar 
             username={this.props.user.username} 
             gravatar_id={this.props.user.gravatar_id} 
-            size="50" 
+            size="80" 
           />
           <h1 ref="user_info_username">{this.props.user.username}</h1>
           <span ref="profile_link">
