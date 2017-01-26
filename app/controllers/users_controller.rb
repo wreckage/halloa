@@ -12,7 +12,8 @@ class UsersController < ApplicationController
     stat = Struct.new(:is_current_user, :is_following, :is_signed_in)
     status = stat.new(is_current_user, is_following, user_signed_in?)
     @props = { user: user_as_json(user), status: status }
-    render component: "Profile", props: @props
+    @component = "Profile"
+    render component: @component, props: @props
   rescue ActiveRecord::RecordNotFound
     redirect_to root_url
   end
@@ -28,16 +29,15 @@ class UsersController < ApplicationController
   def index
     respond_to do |format|
       format.json do
-        @users = User.all.paginate(page: params[:page])
-        render json: { 
-          users: @users.as_json(only: [:id, :username, :gravatar_id]),
-          next_page: @users.next_page }
+        users = User.all.paginate(page: params[:page])
+        @package = { users: users.as_json(only: [:id, :username, :gravatar_id]),
+                     next_page: users.next_page }
+        render json: @package
       end
       format.html do
-        render component: "UserIndex",
-               props: { url: users_path,
-                        title: "All Users",
-                        user: nil }
+        @props = { url: users_path, title: "All Users", user: nil }
+        @component = "UserIndex"
+        render component: @component, props: @props
       end
     end
   end
@@ -60,9 +60,9 @@ class UsersController < ApplicationController
         respond_to do |format|
           format.json do
             users = User.find(params[:id]).public_send(follow_type.downcase).paginate(page: params[:page])
-            @props = { users: users.as_json(only: [:id, :username, :gravatar_id]),
+            @package = { users: users.as_json(only: [:id, :username, :gravatar_id]),
                        next_page: users.next_page }
-            render json: @props
+            render json: @package
           end
           format.html do
             user = User.find(params[:id])
@@ -71,7 +71,8 @@ class UsersController < ApplicationController
             @props = { user: user_json, 
                        url: path, 
                        title: follow_type }
-            render component: "UserIndex", props: @props
+            @component = "UserIndex"
+            render component: @component, props: @props
           end
         end
       )

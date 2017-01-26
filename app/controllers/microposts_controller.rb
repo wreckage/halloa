@@ -2,6 +2,8 @@ class MicropostsController < ApplicationController
   before_action :authenticate_user!, except: [:read]
   before_action :check_format, only: [:read, :feed]
 
+  # Responds with a user's feed in json format. Feed includes both a user's
+  # microposts and all microposts by following users.
   def feed
     user = User.find(params[:id])
     following_ids = "SELECT followed_id FROM relationships
@@ -16,12 +18,13 @@ class MicropostsController < ApplicationController
     render json: @package
   end
 
+  # Responds with a user's microposts in a json package
   def read
-    @user = User.find(params[:id])
-    to_json = { next_page: @user.microposts.paginate(page: params[:page]).next_page,
-                microposts: @user.microposts.paginate(page: params[:page]).as_json(include: { user: { only: [:id, :username, :gravatar_id] } } )
-    }
-    render json: to_json
+    user = User.find(params[:id])
+    microposts_json = microposts_as_json(user.microposts.paginate(page: params[:page]))
+    next_page = user.microposts.paginate(page: params[:page]).next_page
+    @package = { microposts: microposts_json, next_page: next_page }
+    render json: @package
   end
 
   def show
