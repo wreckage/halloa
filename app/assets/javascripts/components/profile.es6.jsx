@@ -16,9 +16,7 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    const url = (
-      '/users/' + this.props.user.id + 
-      '/microposts?page=' + this.state.page)
+    const url = this.props.fetchURL + '?page=' + this.state.page
     $.getJSON(url, (data) => { 
       this.setState({ microposts: data.microposts, next_page: data.next_page })
     });
@@ -32,7 +30,7 @@ class Profile extends React.Component {
     else if (direction === "prev")
       page = this.state.page - 1;
 
-    const url = '/users/' + this.props.user.id + '/microposts?page=' + page
+    const url = this.props.fetchURL + '?page=' + page
     $.ajax({
       method: 'GET',
       dataType: "json",
@@ -59,6 +57,11 @@ class Profile extends React.Component {
   }
 
   render() {
+    const micropost_title = (
+      this.props.show_profile_link ?
+      "Micropost Feed" :
+      "Microposts (" + this.state.microposts_count + ")"
+    );
     return (
       <div className="row">
         <aside className="col-md-4">
@@ -66,7 +69,7 @@ class Profile extends React.Component {
             user={this.props.user}
             followers_count={this.state.followers_count} 
             microposts_count={this.state.microposts_count}
-            show_profile_link={false}
+            show_profile_link={this.props.show_profile_link}
           />
           <section ref="micropost_form" className="micropost_form">
             {this.props.status.is_current_user &&
@@ -87,7 +90,7 @@ class Profile extends React.Component {
               />
           }
           </div>
-          <h3>Microposts ({this.state.microposts_count})</h3>
+          <h3>{micropost_title}</h3>
           <HandlePagination 
             page={this.state.page}
             next_page={this.state.next_page}
@@ -112,6 +115,8 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
-  user:   React.PropTypes.object,
-  status: React.PropTypes.object
+  user:                React.PropTypes.object,
+  status:              React.PropTypes.object,
+  fetchURL:            React.PropTypes.string,
+  show_profile_link:   React.PropTypes.bool
 }

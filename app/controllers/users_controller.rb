@@ -11,7 +11,8 @@ class UsersController < ApplicationController
     end
     stat = Struct.new(:is_current_user, :is_following, :is_signed_in)
     status = stat.new(is_current_user, is_following, user_signed_in?)
-    @props = { user: user_as_json(user), status: status }
+    @props = { user: user_as_json(user), status: status, 
+               fetchURL: microposts_read_path(user), show_profile_link: false }
     @component = "Profile"
     render component: @component, props: @props
   rescue ActiveRecord::RecordNotFound

@@ -44,8 +44,8 @@ class HomeLoggedIn extends React.Component {
     });
   }
 
-  updateMicropostTotal(opt) {
-    typeof opt === "number" && this.setState({ microposts_count: this.state.microposts_count + opt });
+  updateMicropostTotal(num) {
+    this.setState({ microposts_count: this.state.microposts_count + num });
   }
 
   render() {
@@ -92,5 +92,4 @@ class HomeLoggedIn extends React.Component {
 
 HomeLoggedIn.propTypes = {
   user: React.PropTypes.object,
-  is_current_user: React.PropTypes.bool
 }
