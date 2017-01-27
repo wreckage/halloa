@@ -1,9 +1,3 @@
-# User creation
-User.create!(username:  "reu",
-             email: "reubenurbina@gmail.com",
-             password:              "foobar",
-             password_confirmation: "foobar")
-
 40.times do |n|
   username  = Faker::Name.name
   email = "example-#{n+1}@example.com"
