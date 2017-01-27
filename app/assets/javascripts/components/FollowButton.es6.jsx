@@ -4,7 +4,8 @@ class FollowButton extends React.Component {
     this.state = {
       text: this.props.is_following ? "Unfollow" : "Follow",
       verb: this.props.is_following ? "DELETE" : "POST",
-      num:  this.props.is_following ? -1 : 1
+      num:  this.props.is_following ? -1 : 1,
+      btn:  this.props.is_following ? "btn btn-default" : "btn btn-primary"
     };
     this.sendRequest = this.sendRequest.bind(this);
   }
@@ -14,7 +15,8 @@ class FollowButton extends React.Component {
     this.setState({
       text: nextProps.is_following ? "Unfollow" : "Follow",
       verb: nextProps.is_following ? "DELETE" : "POST",
-      num:  nextProps.is_following ? -1 : 1
+      num:  nextProps.is_following ? -1 : 1,
+      btn:  nextProps.is_following ? "btn btn-default" : "btn btn-primary"
     });
   }
 
@@ -34,7 +36,9 @@ class FollowButton extends React.Component {
   render() {
     return (
       <div id="follow_form">
-        <button onClick={this.sendRequest}>{this.state.text}</button>
+        <button type="button" className={this.state.btn} onClick={this.sendRequest}>
+          {this.state.text}
+        </button>
       </div>
     );
   }

@@ -29,7 +29,6 @@ class UserIndex extends React.Component {
       method: 'GET',
       dataType: "json",
       url: url,
-      complete: () => $("html, body").animate({ scrollTop: 0 }, "slow"),
       success: (data) => {
         this.setState({
           users: data.users,
@@ -77,6 +76,7 @@ class UserIndex extends React.Component {
                 page={this.state.page}
                 next_page={this.state.next_page}
                 fetchIt={this.fetchUsers}
+                scroll_up={true}
               />
             </div>
           </div>
@@ -93,6 +93,7 @@ class UserIndex extends React.Component {
             page={this.state.page}
             next_page={this.state.next_page}
             fetchIt={this.fetchUsers}
+            scroll_up={true}
           />
         </div>
       );

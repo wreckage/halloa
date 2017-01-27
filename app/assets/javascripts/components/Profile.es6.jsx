@@ -35,7 +35,6 @@ class Profile extends React.Component {
       method: 'GET',
       dataType: "json",
       url: url,
-      complete: () => $("html, body").animate({ scrollTop: 0 }, "slow"),
       success: (data) => {
         this.setState({
           microposts: data.microposts, 
@@ -71,6 +70,15 @@ class Profile extends React.Component {
             microposts_count={this.state.microposts_count}
             show_profile_link={this.props.show_profile_link}
           />
+          <div ref="follow_button" className="follow_button">
+          {(this.props.status.is_signed_in && !this.props.status.is_current_user) &&
+              <FollowButton 
+                followed_id={this.props.user.id}
+                is_following={this.state.is_following}
+                updateFollowers={this.updateFollowers}
+              />
+          }
+          </div>
           <section ref="micropost_form" className="micropost_form">
             {this.props.status.is_current_user &&
               <MicropostForm 
@@ -81,20 +89,12 @@ class Profile extends React.Component {
           </section>
         </aside>
         <div className="col-md-8">
-          <div ref="follow_button" className="follow_button">
-          {(this.props.status.is_signed_in && !this.props.status.is_current_user) &&
-              <FollowButton 
-                followed_id={this.props.user.id}
-                is_following={this.state.is_following}
-                updateFollowers={this.updateFollowers}
-              />
-          }
-          </div>
           <h3>{micropost_title}</h3>
           <HandlePagination 
             page={this.state.page}
             next_page={this.state.next_page}
             fetchIt={this.fetchMicroposts}
+            scroll_up={false}
           />
           <ShowMicroposts 
             microposts={this.state.microposts}
@@ -107,6 +107,7 @@ class Profile extends React.Component {
             page={this.state.page}
             next_page={this.state.next_page}
             fetchIt={this.fetchMicroposts}
+            scroll_up={true}
           />
         </div>
       </div>
