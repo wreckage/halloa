@@ -1,5 +1,5 @@
 # Halloa!
-## A twitter style example app created with React.js, Ruby on Rails 5, and Devise
+## A twitter style example app created with React, Ruby on Rails 5, and Devise
 
 ## Getting started
 
@@ -39,7 +39,7 @@ Instead of adding react components into rails views via the react helper
 renders react components and props from the controller. This means that everything you see in the site (with
 the exception of the header) is a react component rendered on top of the base application.html.erb view.
 
-Unlike in Hartl's tutorial, this app interacts with a micropost resource. As an example, when a user
+Unlike in Hartl's tutorial, this app interacts with a micropost resource (a JSON API). As an example, when a user
 visits their profile, the `Profile` react component is mounted, which triggers its
 `componentsDidMount()` function, which sends out an ajax request for a user's microposts. The server
 then sends those microposts back to be rendered by the `Profile` component (which it does via
@@ -61,14 +61,15 @@ now rendered by the `Profile` Class component. This component uses state and pro
 itself together.
 
 On the left we see our username and some other information, all of it brought to us by the
-UserInfo child component. This component uses the UserGravatar component to render a [gravatar] (gravatar.com),
-and the UserStats component to show our followers / following info. Below all that we see the micropost
-form, which is yet another react component (called `MicropostForm`).
+`UserInfo` child component. This component uses the `UserGravatar` component to render a 
+[gravatar] (https://www.gravatar.com), and the `UserStats` component to show our followers / following info. 
+Below all of that we see the micropost form, which is yet another react component (called `MicropostForm`).
 
 Writing a post and clicking the "Post" button has our post show up in our feed without a page refresh.
 When the "Post" button is clicked, it is handled by an `onSubmit` function within the `MicropostForm` component, 
 which sends the value of the form to the server via ajax. On successful submission the micropost count is incremented 
-and the micropost feed is refreshed asynchronously. If we now click the 'delete' link on our new post, the post
+and the micropost feed is refreshed asynchronously. On the right of the page is our micropost feed, rendered
+by the `ShowMicroposts` component. If we now click the 'delete' link on our new post, the post
 will be deleted asynchronously.
 
 Clicking the "Users" link in the header takes us to a list of all the users on the site. This page is
@@ -79,11 +80,24 @@ the next or previous page of users.
 
 Clicking on a user's username takes us to their profile page, which is rendered by the `Profile` component.
 Under the user's stats we see a follow button, and clicking it sends out an ajax request that lets us
-follow the user and increments the user's 'followers' stat. If we now navigate back home, we see that
-the other user's microposts are included in our feed and our 'following' number has been incremented. 
-We can click on the 'following' link in our stats section to visit the 'Following' page, 
-which is rendered by the `UserIndex` component.
+follow the user and increments the user's 'followers' number. The process of following a user requires
+that the `FollowButton` component communicate with the `UserInfo` component to let it know to increment
+the number of users it has in its state. It works like this: 
+1. a user clicks the follow button 
+2. an ajax request is sent out from the `FollowButton` component
+3. on success, an `updateFollowers` function is triggered in the parent `Profile` component
+4. `updateFollowers` increments the `followers_count` state in the `Profile` component
+5. The new state of `followers_count` is sent down to the `UserInfo` component
+6. The `UserInfo` component's `componentWillReceiveProps` function fires and updates the `followers_count` in it's state
+7. React renders the new state of `UserInfo`
+This process of [lifting state up] (https://facebook.github.io/react/docs/lifting-state-up.html)
+ is how components communicate with eachother, because in React 
+ [data flows down] (https://facebook.github.io/react/docs/state-and-lifecycle.html#the-data-flows-down).
 
+If we now navigate back home, we see that the other user's microposts are included in our 
+feed and our 'following' number has been incremented. We can click on the 'following' 
+link in our stats section to visit the 'Following' page, which is rendered by the 
+`UserIndex` component.
 
 ## Notes
 - Pressing the back button was causing some components to misbehave, so I had to disable turbolinks caching
@@ -111,3 +125,4 @@ $ rails jasmine
 
 ## To do
 - More tests
+- Improve the 'created at' time in a user's micropost
