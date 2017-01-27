@@ -105,6 +105,9 @@ link in our stats section to visit the 'Following' page, which is rendered by th
 - Since the app uses react components, instance variables are unavailable. Everything the component needs
   must be sent out by the controller (which is packaged in an @props instance variable to aid in testing)
   or received via an ajax call (which is how, for example, the micropost feed is obtained).
+- I've added a unique username field to the user model, and there are no email activations.
+- There's no image upload for the microposts (shouldn't be difficult to add, but since my focus was on
+  building the React UI, I skipped over it)
 
 
 ## Testing
