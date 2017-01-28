@@ -36,12 +36,12 @@ This app can be thought of as a re-creation of Michael Hartl's
 
 Instead of adding react components into rails views via the react helper 
 (which looks like `<%= react_component('HelloMessage', name: 'John') %>`), the server
-renders react components and props from the controller. This means that everything you see in the site (with
-the exception of the header) is a react component rendered on top of the base application.html.erb view.
+renders react components and props from the controller. This means that the only rails
+views rendered are the base application.html.erb view and Devise's views.
 
 Unlike in Hartl's tutorial, this app interacts with a micropost resource (a JSON API). As an example, when a user
 visits their profile, the `Profile` react component is mounted, which triggers its
-`componentsDidMount()` function, which sends out an ajax request for a user's microposts. The server
+`componentDidMount()` function, which sends out an ajax request for a user's microposts. The server
 then sends those microposts back to be rendered by the `Profile` component (which it does via
 the `ShowMicroposts` child component). Similarly, the `UserIndex` component makes use of a users resource.
 
@@ -112,7 +112,8 @@ link in our stats section to visit the 'Following' page, which is rendered by th
 
 ## Testing
 Tests are implemented in two ways: React tests are handled with [jasmine] (https://jasmine.github.io/), 
-Rails tests by [Rspec] (https://github.com/rspec/rspec-rails).
+and are found in `spec/javascripts/components`, Rails tests are handled 
+by [Rspec] (https://github.com/rspec/rspec-rails).
 
 To run the rspec test suite:
 
