@@ -91,6 +91,7 @@ the number of users it has in its state. It works like this:
 5. The new state of `followers_count` is sent down to the `UserInfo` component
 6. The `UserInfo` component's `componentWillReceiveProps` function fires and updates the `followers_count` in it's state
 7. React renders the new state of `UserInfo`
+
 This process of [lifting state up] (https://facebook.github.io/react/docs/lifting-state-up.html)
  is how components communicate with eachother, because in React 
  [data flows down] (https://facebook.github.io/react/docs/state-and-lifecycle.html#the-data-flows-down).
