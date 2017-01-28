@@ -39,9 +39,6 @@ class MicropostsController < ApplicationController
     end
   end
 
-  def update
-  end
-
   def destroy
     micropost = current_user.microposts.find_by(id: params[:id])
     if micropost.nil?
