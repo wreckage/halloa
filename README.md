@@ -83,6 +83,7 @@ Under the user's stats we see a follow button, and clicking it sends out an ajax
 follow the user and increments the user's 'followers' number. The process of following a user requires
 that the `FollowButton` component communicate with the `UserInfo` component to let it know to increment
 the number of users it has in its state. It works like this: 
+
 1. a user clicks the follow button 
 2. an ajax request is sent out from the `FollowButton` component
 3. on success, an `updateFollowers` function is triggered in the parent `Profile` component
